@@ -2,7 +2,7 @@
 #include <stdlib.h>
 
 // A C program for disassembling 8080 instruction code
-// Takes in a buffer of bytes, translates it into assembly language source
+// Takes in a buffer of hexadecimal digits, translates it into assembly language source
 
 // Returns the new program counter location
 int disassemble(unsigned char* buffer, int pc);
