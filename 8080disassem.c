@@ -2,42 +2,9 @@
 #include <stdlib.h>
 
 // A C program for disassembling 8080 instruction code
-// Takes in a buffer of hexadecimal digits, translates it into assembly language source
+// Takes in a buffer of bytes, translates it into assembly language source
 
 // Returns the new program counter location
-int disassemble(unsigned char* buffer, int pc);
-
-int main(int argc, char **argv) {
-
-    // Open file at the path of first program argument, read it as binary
-    FILE *f = fopen(argv[1], "rb");
-
-    if (f == NULL) {
-        printf("Error: Could not open %s\n", argv[1]);
-        exit(1);
-    }
-
-    // Get file size, read the file into memory
-    fseek(f, 0L, SEEK_END);
-    int fsize = ftell(f);
-    fseek(f, 0L, SEEK_SET);
-
-    unsigned char* buffer = malloc(fsize);
-    fread(buffer, fsize, 1, f);
-    fclose(f);
-
-    // Perform the disassembly
-    int pc = 0;
-    while (pc < fsize) {
-        pc += disassemble(buffer, pc);
-    }
-
-    // Free up space from malloc before returning
-    free(buffer);
-
-    return 0;
-}
-
 int disassemble(unsigned char* buffer, int pc) {
 
     // Read an opcode from buffer of bytes
@@ -62,12 +29,12 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0x02:
-            printf("STAX    B");
+            printf("STAX   B");
             break; 
 
         case 0x03:
             printf("INX    B");
-            break
+            break;
 
         case 0x04:
             printf("INR    B");
@@ -95,7 +62,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0x0a:
-            printf("LDAX    B");
+            printf("LDAX   B");
             break;
 
         case 0x0b:
@@ -129,7 +96,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0x12:
-            printf("STAX    D");
+            printf("STAX   D");
             break;
 
         case 0x13:
@@ -162,7 +129,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0x1a:
-            printf("LDAX    D");
+            printf("LDAX   D");
             break;
 
         case 0x1b:
@@ -196,7 +163,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0x22:
-            printf("SHLD    $%02x%02x", opcode[2], opcode[1]);
+            printf("SHLD   $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
@@ -230,7 +197,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0x2a:
-            printf("LHLD    $%02x%02x", opcode[2], opcode[1]);
+            printf("LHLD   $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
@@ -859,7 +826,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xc5:
-            printf("PUSH    B");
+            printf("PUSH   B");
             break;
 
         case 0xc6:
@@ -880,7 +847,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xca:
-            printf("JZ    $%02x%02x", opcode[2], opcode[1]);
+            printf("JZ     $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
@@ -889,12 +856,12 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xcc:
-            printf("CZ    $%02x%02x", opcode[2], opcode[1]);
+            printf("CZ     $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
         case 0xcd:
-            printf("CALL    $%02x%02x", opcode[2], opcode[1]);
+            printf("CALL   $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
@@ -931,7 +898,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xd5:
-            printf("PUSH    D");
+            printf("PUSH   D");
             break;
 
         case 0xd6:
@@ -952,22 +919,22 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xda:
-            printf("JC    $%02x%02x", opcode[2], opcode[1]);
+            printf("JC     $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
         case 0xdb:
-            printf("IN    #%02x", opcode[1]);
+            printf("IN     #%02x", opcode[1]);
             opbytes = 2;
             break;
 
         case 0xdc:
-            printf("CZ    $%02x%02x", opcode[2], opcode[1]);
+            printf("CZ     $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
         case 0xdd:
-            printf("CALL    $%02x%02x", opcode[2], opcode[1]);
+            printf("CALL   $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
@@ -1003,7 +970,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xe5:
-            printf("PUSH    H");
+            printf("PUSH   H");
             break;
 
         case 0xe6:
@@ -1029,7 +996,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xeb:
-            printf("XCHG    #%02x", opcode[1]);
+            printf("XCHG   #%02x", opcode[1]);
             opbytes = 2;
             break;
 
@@ -1039,7 +1006,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xed:
-            printf("CALL    $%02x%02x", opcode[2], opcode[1]);
+            printf("CALL   $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
@@ -1061,7 +1028,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xf2:
-            printf("JP    $%02x%02x", opcode[2], opcode[1]);
+            printf("JP     $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
@@ -1070,12 +1037,12 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xf4:
-            printf("CP    $%02x%02x", opcode[2], opcode[1]);
+            printf("CP     $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
         case 0xf5:
-            printf("PUSH    PSW");
+            printf("PUSH   PSW");
             break;
 
         case 0xf6:
@@ -1096,7 +1063,7 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xfa:
-            printf("JM    $%02x%02x", opcode[2], opcode[1]);
+            printf("JM     $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
@@ -1105,16 +1072,17 @@ int disassemble(unsigned char* buffer, int pc) {
             break;
 
         case 0xfc:
-            printf("CM    $%02x%02x", opcode[2], opcode[1]);
+            printf("CM     $%02x%02x", opcode[2], opcode[1]);
             opbytes = 3;
             break;
 
         case 0xfd:
-            printf("CALL    $%02x%02x", opcode[2],opcode[1]);
+            printf("CALL   $%02x%02x", opcode[2],opcode[1]);
             opbytes = 3;
             break;
 
-        case 0xfe: printf("CPI    #$%02x", opcode[1]);
+        case 0xfe:
+            printf("CPI    #$%02x", opcode[1]);
             opbytes = 2;
             break;
 
@@ -1131,4 +1099,35 @@ int disassemble(unsigned char* buffer, int pc) {
     printf("\n");
     return opbytes;
 
+}
+
+int main(int argc, char **argv) {
+
+    // Open file at the path of first program argument, read it as binary
+    FILE *f = fopen(argv[1], "rb");
+
+    if (f == NULL) {
+        printf("Error: Could not open %s\n", argv[1]);
+        exit(1);
+    }
+
+    // Get file size, read the file into memory
+    fseek(f, 0L, SEEK_END);
+    int fsize = ftell(f);
+    fseek(f, 0L, SEEK_SET);
+
+    unsigned char* buffer = malloc(fsize);
+    fread(buffer, fsize, 1, f);
+    fclose(f);
+
+    // Perform the disassembly
+    int pc = 0;
+    while (pc < fsize) {
+        pc += disassemble(buffer, pc);
+    }
+
+    // Free up space from malloc before returning
+    free(buffer);
+
+    return 0;
 }
